@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer; /* Ensure cursor changes to pointer on hover */
+        }
+        .login-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .forgot-password-link {
+            display: block; /* Ensures the link takes up full width */
+            text-align: center; /* Centers the link */
+            margin-top: 10px; /* Adds space above the link */
+            text-decoration: none; /* Removes underline */
+            color: #007bff; /* Blue color for link */
+        }
+        .forgot-password-link:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login</h2>
+    <form th:action="@{/userLogin}" th:object="${user}" method="post">
+        <label>Enter Username or email</label>
+        <input type="text" th:field="*{userName}" required>
+        <br>
+        <label>Enter Password</label>
+        <input type="password" th:field="*{password}" required>
+        <button type="submit">Login</button>
+    </form>
+    <a href="/forgotPassword" class="forgot-password-link">Forgot Password?</a>
+	<br>
+	<a href="/register" class="register-link">Don't have an account? Register</a>
+
+</div>
+</body>
+</html>

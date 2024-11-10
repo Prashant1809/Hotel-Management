@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-container {
+            margin-bottom: 40px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input, select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px; /* Add margin to separate buttons */
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .delete-btn, .update-btn {
+            padding: 5px 10px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .update-btn {
+            background-color: #007bff;
+        }
+        .update-btn:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin</h1>
+        
+        <!-- Form Container for Adding Rooms -->
+        <div class="form-container">
+            <h2>Add Room</h2>
+            <form th:action="@{/addRoom}" th:object="${room}" method="post">
+                <label>Availability</label>
+                <select th:field="*{availability}">
+                    <option value="true">Available</option>
+                    <option value="false">Not Available</option>
+                </select>
+                <label>Price</label>
+                <input type="number" th:field="*{price}" required>
+                <label for="roomType">Room Type:</label>
+                <select th:field="*{roomType}" required>
+                    <option value="" disabled selected>Select Room Type</option>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Deluxe">Deluxe</option>
+                </select>
+                <button type="submit">Add Room</button>
+            </form>
+        </div>
+        
+        <!-- Table Rendering -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Room ID</th>
+                    <th>Availability</th>
+                    <th>Price</th>
+                    <th>Room Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.roomId}"></td>
+                    <td th:text="${room.availability ? 'Available' : 'Not Available'}"></td>
+                    <td th:text="${room.price}"></td>
+                    <td th:text="${room.roomType}"></td>
+                    <td>
+                        <div class="action-buttons">
+                            <form method="post" th:action="@{/deleteRoom}">
+                                <input type="hidden" name="roomId" th:value="${room.roomId}">
+                                <button type="submit" class="delete-btn">DELETE</button>
+                            </form>
+                            <a th:href="@{/updateRoom/{id}(id=${room.roomId})}" class="update-btn">UPDATE</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

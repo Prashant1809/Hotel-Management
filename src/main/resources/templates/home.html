@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .filter-form {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        label {
+            margin-right: 10px;
+            color: #555;
+        }
+        input {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome User</h1>
+
+        <h2>Filter Hotel Rooms by Price</h2>
+        <div class="filter-form">
+            <form th:action="@{/home}" method="get">
+                <label>Min Price:</label>
+                <input type="number" name="minPrice" min="0" th:value="${param.minPrice}">
+                <label>Max Price:</label>
+                <input type="number" name="maxPrice" min="0" th:value="${param.maxPrice}">
+                <button type="submit">Apply Filter</button>
+            </form>
+        </div>
+
+        <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+        <h2>Filtered Hotel Rooms</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Room ID</th>
+                    <th>Availability</th>
+                    <th>Price</th>
+                    <th>Room Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Iterate over each room and display its details -->
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.roomId}"></td>
+                    <td th:text="${room.availability ? 'Available' : 'Not Available'}"></td>
+                    <td th:text="${room.price}"></td>
+                    <td th:text="${room.roomType}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
